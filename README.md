@@ -81,6 +81,7 @@ To then clear memory & kill all depedencies the below command can be run:
 
 in the AdrianSmartAssistant folder execute the below command (it doesn't delete any local config changes):
 
+	git fetch origin master
 	git reset --hard origin/master
 
 
