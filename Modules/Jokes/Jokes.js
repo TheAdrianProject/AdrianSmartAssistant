@@ -14,14 +14,6 @@ var fs = require('fs');
 
 function GetJoke(ModuleParams){ 
 
-
-	var searchText      = ModuleParams["text"];
-
-	//var request = require('request');
-	var striptags = require('striptags');
-	var searchText = searchText.replace(" ","+")
-	var searchText = searchText.replace(/ /g ,"+")
-
 	var ModulExec = execSync('curl -sA "Chrome" -L "http://tambal.azurewebsites.net/joke/random" -o '+constants.JOKES_TEMP_JSON
 							, {stdio:"ignore"} ); //hide it with ignore
 

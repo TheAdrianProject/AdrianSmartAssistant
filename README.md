@@ -2,10 +2,15 @@
 # AdrianSmartAssistant
 
 --------------------------------------------------------------------------
+
 Copyright [2016] [Gergely Hajcsak & Jamie Deakin - The Adrian Team]
+
 Webiste : www.theadrianproject.com
+
 Email : team@theadrianproject.com
+
 Licence : Licensed under the Apache License, Version 2.0
+
 --------------------------------------------------------------------------
 
 
