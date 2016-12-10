@@ -78,7 +78,7 @@ Once you have your Ivona credentials change the constants.js repacling the value
 The application can be stopped any time pressing CTRL+C .
 To then clear memory & kill all depedencies the below command can be run:
 
-	./stop
+	./stop.sh
 
 
 5. Update Adrian
@@ -87,6 +87,6 @@ To then clear memory & kill all depedencies the below command can be run:
 in the AdrianSmartAssistant folder execute the below command. Before execution
 commit all of your local changes.
 
-	./update
+	./update.sh
 
 
