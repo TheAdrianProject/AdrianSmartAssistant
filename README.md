@@ -1,12 +1,12 @@
 
 # AdrianSmartAssistant
 
-/************************************************************************
+--------------------------------------------------------------------------
 Copyright [2016] [Gergely Hajcsak & Jamie Deakin - The Adrian Team]
 Webiste : www.theadrianproject.com
 Email : team@theadrianproject.com
 Licence : Licensed under the Apache License, Version 2.0
-************************************************************************/
+--------------------------------------------------------------------------
 
 
 Introducing Adrian, your advanced open source Home Smart Assistant. Bringing simplicity to your home through voice automation. 
