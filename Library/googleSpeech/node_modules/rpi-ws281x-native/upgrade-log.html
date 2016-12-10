@@ -1,0 +1,190 @@
+<html>
+<head>
+  <title>Upgrade utils report</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/usr/local/lib/node_modules/upgrade-utils/lib/assets/editor.css">
+  <link rel="stylesheet" href="/usr/local/lib/node_modules/upgrade-utils/lib/assets/markdownPreview.css">
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class="nav">
+    <a href="http://nodesource.com" target="_blank"><img src="/usr/local/lib/node_modules/upgrade-utils/lib/assets/logo-white.svg"/></a>
+    <p>Upgrade utils report</p>
+  </div>
+
+  <section id="diffs">
+    <div>
+      <h3 class="preview">Your files were not touched this is a preview for all changes to apply in your files, to write these changes run the tool with the <code>--update</code> flag</h3>
+    </div>
+      <div>
+          <h3>Lines changed in src/rpi-ws281x.cc</h3>
+          <div class="diff">
+                <pre><code class="removed">-   NanScope();
+</code></pre>
+                <pre><code class="added">+   Nan::HandleScope scope;
+</code></pre>
+                <pre><code class="removed">-   if(args.Length() !&#x3D; 1) {
+    return NanThrowTypeError(&quot;render(): missing argument.&quot;);
+</code></pre>
+                <pre><code class="added">+   if(info.Length() !&#x3D; 1) {
+    return Nan::ThrowTypeError(&quot;render(): missing argument.&quot;);
+</code></pre>
+                <pre><code class="removed">-   if(!args[0]-&gt;IsUint32Array()) {
+    return NanThrowTypeError(
+</code></pre>
+                <pre><code class="added">+   if(!info[0]-&gt;IsUint32Array()) {
+    return Nan::ThrowTypeError(
+</code></pre>
+                <pre><code class="removed">-   Local&lt;Uint32Array&gt; arr &#x3D; Local&lt;Uint32Array&gt;::Cast(args[0]-&gt;ToObject());
+</code></pre>
+                <pre><code class="added">+   Local&lt;Uint32Array&gt; arr &#x3D; Local&lt;Uint32Array&gt;::Cast(info[0]-&gt;ToObject());
+</code></pre>
+                <pre><code class="removed">-     return NanThrowTypeError(&quot;render(): something did go wrong. Please file a bugreport.&quot;);
+</code></pre>
+                <pre><code class="added">+     return Nan::ThrowTypeError(&quot;render(): something did go wrong. Please file a bugreport.&quot;);
+</code></pre>
+                <pre><code class="removed">-   NanReturnValue(NanUndefined());
+</code></pre>
+                <pre><code class="added">+   info.GetReturnValue().Set(Nan::Undefined());
+</code></pre>
+                <pre><code class="removed">-   NanScope();
+</code></pre>
+                <pre><code class="added">+   Nan::HandleScope scope;
+</code></pre>
+                <pre><code class="removed">-   if(args.Length() &lt; 1) {
+    return NanThrowTypeError(&quot;init(): expected at least 1 argument&quot;);
+</code></pre>
+                <pre><code class="added">+   if(info.Length() &lt; 1) {
+    return Nan::ThrowTypeError(&quot;init(): expected at least 1 argument&quot;);
+</code></pre>
+                <pre><code class="removed">-   if(!args[0]-&gt;IsNumber()) {
+    return NanThrowTypeError(&quot;init(): argument 0 is not a number&quot;);
+</code></pre>
+                <pre><code class="added">+   if(!info[0]-&gt;IsNumber()) {
+    return Nan::ThrowTypeError(&quot;init(): argument 0 is not a number&quot;);
+</code></pre>
+                <pre><code class="removed">-   ledstring.channel[0].count &#x3D; args[0]-&gt;Int32Value();
+</code></pre>
+                <pre><code class="added">+   ledstring.channel[0].count &#x3D; info[0]-&gt;Int32Value();
+</code></pre>
+                <pre><code class="removed">-   if(args.Length() &gt;&#x3D; 2 &amp;&amp; args[1]-&gt;IsObject()) {
+    Local&lt;Object&gt; config &#x3D; args[1]-&gt;ToObject();
+</code></pre>
+                <pre><code class="added">+   if(info.Length() &gt;&#x3D; 2 &amp;&amp; info[1]-&gt;IsObject()) {
+    Local&lt;Object&gt; config &#x3D; info[1]-&gt;ToObject();
+</code></pre>
+                <pre><code class="removed">-         symFreq &#x3D; NanNew&lt;String&gt;(&quot;frequency&quot;),
+        symDmaNum &#x3D; NanNew&lt;String&gt;(&quot;dmaNum&quot;),
+        symGpioPin &#x3D; NanNew&lt;String&gt;(&quot;gpioPin&quot;),
+        symInvert &#x3D; NanNew&lt;String&gt;(&quot;invert&quot;),
+        symBrightness &#x3D; NanNew&lt;String&gt;(&quot;brightness&quot;);
+</code></pre>
+                <pre><code class="added">+         symFreq &#x3D; Nan::New&lt;String&gt;(&quot;frequency&quot;).ToLocalChecked(),
+        symDmaNum &#x3D; Nan::New&lt;String&gt;(&quot;dmaNum&quot;).ToLocalChecked(),
+        symGpioPin &#x3D; Nan::New&lt;String&gt;(&quot;gpioPin&quot;).ToLocalChecked(),
+        symInvert &#x3D; Nan::New&lt;String&gt;(&quot;invert&quot;).ToLocalChecked(),
+        symBrightness &#x3D; Nan::New&lt;String&gt;(&quot;brightness&quot;).ToLocalChecked();
+</code></pre>
+                <pre><code class="removed">-       return NanThrowError(&quot;init(): initialization failed. sorry – no idea why.&quot;);
+</code></pre>
+                <pre><code class="added">+       return Nan::ThrowError(&quot;init(): initialization failed. sorry – no idea why.&quot;);
+</code></pre>
+                <pre><code class="removed">-   NanReturnValue(NanUndefined());
+</code></pre>
+                <pre><code class="added">+   info.GetReturnValue().Set(Nan::Undefined());
+</code></pre>
+                <pre><code class="removed">-   NanScope();
+</code></pre>
+                <pre><code class="added">+   Nan::HandleScope scope;
+</code></pre>
+                <pre><code class="removed">-   NanReturnValue(NanUndefined());
+</code></pre>
+                <pre><code class="added">+   info.GetReturnValue().Set(Nan::Undefined());
+</code></pre>
+                <pre><code class="removed">-   exports-&gt;Set(NanNew&lt;String&gt;(&quot;init&quot;),   NanNew&lt;FunctionTemplate&gt;(Init)-&gt;GetFunction());
+  exports-&gt;Set(NanNew&lt;String&gt;(&quot;reset&quot;),  NanNew&lt;FunctionTemplate&gt;(Reset)-&gt;GetFunction());
+  exports-&gt;Set(NanNew&lt;String&gt;(&quot;render&quot;), NanNew&lt;FunctionTemplate&gt;(Render)-&gt;GetFunction());
+</code></pre>
+                <pre><code class="added">+   exports-&gt;Set(Nan::New&lt;String&gt;(&quot;init&quot;).ToLocalChecked(),   Nan::New&lt;FunctionTemplate&gt;(Init)-&gt;GetFunction());
+  exports-&gt;Set(Nan::New&lt;String&gt;(&quot;reset&quot;).ToLocalChecked(),  Nan::New&lt;FunctionTemplate&gt;(Reset)-&gt;GetFunction());
+  exports-&gt;Set(Nan::New&lt;String&gt;(&quot;render&quot;).ToLocalChecked(), Nan::New&lt;FunctionTemplate&gt;(Render)-&gt;GetFunction());
+</code></pre>
+          </div>
+      </div>
+  </section>
+
+  <section id="suggestions">
+    <h1>Suggested changes in your JavaScript files</h1>
+      <div>
+        <h2>process</h2>
+        <p>Please review changes in Node API for process module used in these files:</p>
+        <ul>
+          <li>examples/iterate.js</li>
+          <li>examples/rainbow.js</li>
+          <li>lib/ws281x-native.js</li>
+        </ul>
+        <div>
+          <p>[<a href="https://iojs.org/api/process.html">Docs</a>]</p>
+<ul>
+<li>Added the concept of <code>beforeExit</code> time.<ul>
+<li>Before the process emits <a href="https://iojs.org/api/process.html#process_event_exit"><code>&#39;exit&#39;</code></a> and begins shutting down, it will emit a <a href="https://iojs.org/api/process.html#process_event_beforeexit"><code>&#39;beforeExit&#39;</code></a> event. Code that is run in the <code>&#39;beforeExit&#39;</code> event can schedule async operations that will hold the event loop open, unlike <code>&#39;exit&#39;</code> where it is too late to async operations.</li>
+<li>Refs: <a href="https://github.com/nodejs/node/commit/a2eeb43deda58e7bbb8fcf24b934157992b937c0"><code>a2eeb43</code></a></li>
+</ul>
+</li>
+<li>Chunked writes to sdtout/stderr will now be lost if the process is terminated early.<ul>
+<li>Chunked writes happen when the string to be written is beyond a certain, fairly large, size.</li>
+<li>Refs: <a href="https://github.com/nodejs/node/issues/784">#784</a>, <a href="https://github.com/nodejs/node/pull/1771">#1771</a></li>
+</ul>
+</li>
+<li><a href="https://iojs.org/api/process.html#process_process_kill_pid_signal"><code>process.kill()</code></a> now throws errors on non-numeric input.<ul>
+<li>Strings that can be coerced to numbers still work. e.g. <code>process.kill(&#39;0&#39;)</code>.</li>
+<li>Refs: <a href="https://github.com/nodejs/node/commit/832ec1cd507ed344badd2ed97d3da92975650a95"><code>832ec1c</code></a>, <a href="https://github.com/nodejs/node/commit/743a009bad64c4302a724f70c42d73601a16aed4"><code>743a009</code></a></li>
+</ul>
+</li>
+<li><code>process.maxTickDepth</code> has been removed, allowing <a href="https://iojs.org/api/process.html#process_process_nexttick_callback_arg"><code>process.nextTick()</code></a> to starve I/O indefinitely.<ul>
+<li>This is due to adding <a href="https://iojs.org/api/timers.html#timers_setimmediate_callback_arg"><code>setImmediate()</code></a> in 0.10.</li>
+<li>It is suggested you use <code>setImmediate()</code> over <code>process.NextTick()</code>. <code>setImmediate()</code> likely does what you are hoping for (a more efficient <code>setTimeout(..., 0)</code>), and runs after this tick&#39;s I/O. <code>process.nextTick()</code> does not actually run in the &quot;next&quot; tick anymore and will block I/O as if it were a synchronous operation.</li>
+<li>Refs: <a href="https://github.com/nodejs/node/commit/0761c90204d7a0134c657e20f91bd83bfa6e677a"><code>0761c90</code></a>, <a href="https://github.com/nodejs/node/commit/9a6c0853bc164ad2d76f51cdcb0771e881cd0a5f"><code>9a6c085</code></a></li>
+</ul>
+</li>
+<li><a href="https://github.com/nodejs/node/pull/1978"><code>process.send()</code></a> is now always asynchronous, where previously it was blocking on Unix.<ul>
+<li>Pull request <a href="https://github.com/nodejs/node/pull/2620">#2620</a>, which should land before 4.0.0, will make <code>send()</code> accept a callback as the last argument, with will be called with one argument: <code>null</code> if it succeeded, or an <code>Error</code> if it failed.</li>
+<li>Refs: <a href="https://github.com/nodejs/node/issues/760">#760</a>, <a href="https://github.com/nodejs/node/pull/2620">#2620</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="signal-handling">Signal handling</h4>
+<p>In node 0.10.x, exit from a fatal signal was accomplished by a signal handler in
+node which called <code>exit(128 + signo)</code>.  So for <code>SIGINT</code> (signal 2), a node process
+observing the exit of a spawned node process would observe that process exiting 130,
+but no signal would be noted (see <a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/waitid.html"><code>waitid(2)</code></a> for more information on how a process
+waiting for another determines if the waitee exited due to a signal).  In node
+0.12.x, a node process observing the exit of a spawned child node process will
+see a null <code>code</code>, and a <code>&#39;SIGINT&#39;</code> as the signal.</p>
+<p>Here is a pair of test programs which illustrates the difference.</p>
+<pre><code>$ cat sleeper.js
+setTimeout(function () {}, 300000)
+
+$ cat test.js
+var cp = require(&quot;child_process&quot;)
+var p = cp.spawn(&quot;node&quot;, [&quot;sleeper.js&quot;])
+p.on(&#39;exit&#39;, function (code, signal) {
+  console.log(&quot;code=&quot; + code + &quot;, signal=&quot; + signal)
+})
+setTimeout(function () { p.kill(&#39;SIGINT&#39;) }, 2000)
+</code></pre><p>On node 0.10 this produces:</p>
+<pre><code>$ node test.js
+code=130, signal=null
+</code></pre><p>On node 0.12+ this produces:</p>
+<pre><code>$ node test.js
+code=null, signal=SIGINT
+</code></pre><p>This can be a subtle porting issue for multi-process node environments which care
+about signals (such as test harnesses).  This change was introduced by
+<a href="https://github.com/joyent/node/commit/c61b0e9cbc748c5e90fc5e25e4fb490b4104cae3"><code>c61b0e9</code>—<code>main: Handle SIGINT properly</code></a>.</p>
+
+        </div>
+      </div>
+      <hr>
+  </section>
+</body>
+</html>

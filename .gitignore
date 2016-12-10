@@ -1,0 +1,10 @@
+Modules/Speaker/Temp/*.mp3
+Modules/Google/Temp/*.html
+Modules/Howiki/Temp/*.html
+Modules/Howiki/Temp/*.json
+Modules/Jokes/Temp/*.json
+Modules/New/Temp/*.xml
+Modules/Spotify/Temp/*.json
+Modules/Listener/Log/*.json
+*.json
+constants.js

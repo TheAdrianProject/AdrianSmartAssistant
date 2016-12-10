@@ -1,0 +1,2 @@
+This is a dummy file to keep the empty folder in the git repository. 
+DO NOT DELETE THIS FILE
