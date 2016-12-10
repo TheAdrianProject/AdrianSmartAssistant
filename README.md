@@ -84,9 +84,9 @@ To then clear memory & kill all depedencies the below command can be run:
 5. Update Adrian
 --------------------------------------------------------------------------
 
-in the AdrianSmartAssistant folder execute the below command (it doesn't delete any local config changes):
+in the AdrianSmartAssistant folder execute the below command. Before execution
+commit all of your local changes.
 
-	git fetch origin master
-	git reset --hard origin/master
+	./update
 
 
