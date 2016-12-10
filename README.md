@@ -13,40 +13,39 @@ Introducing Adrian, your advanced open source Home Smart Assistant. Bringing sim
 Get a morning news update, stream music, control your smart devices & ask just about anything. 
 
 
-Hot to configire 
+How to configure 
 --------------------------------------------------------------------------
 
-to start Planign with adrian the core modules need to be configured
-it has 2 core modules 
+To start playing with Adrian the core modules need to be configured.
+There are two core modules:
 
-	1.	Google Speech to Text Service Module
-	2.	Ivona Text to Speech Module
+	1.  Google Speech to Text Service Module
+	2.  Ivona Text to Speech Module
 
-	3.  Start Application
-	4.  Stop Appilication
+There are then three main commands to start, stop and update adrian:
 
-	5. 	Online Update Adrian
+	3.  Start Adrian
+	4.  Stop Adrian
+	5.  Update Adrian
 
 --------------------------------------------------------------------------
-All module configuration chnage can be done in the constants.js file
+All module configuration changes can be done in the constants.js file
 --------------------------------------------------------------------------
 
 1. Configuring Google Speech to Text Service Module
 --------------------------------------------------------------------------
 
 All users need a Google Speech Service Account which can be obtained
-online. If you don't have one yet get it from https://cloud.google.com/speech
-Google Speech Service is free up to a certain montly limit. 
+online. If you don't have one yet get it from https://cloud.google.com/speech .
+Google Speech Service is free up to a certain monthly limit. 
 
-Once you registered you will have a 
-	project_id 
-	google application credential file
+Once you have registered you will be issued a:
+	- project_id 
+	- google application credential file
 
-This file can be downloaded at https://console.developers.google.com/project/_/apis/credentials
-Once you have google application credential file copy it to /Library/googleSpeech/Account/ folder
-And set it up int the constants.js file 
-
-Change the constants.js repacling the values
+The google application credential file can be downloaded at https://console.developers.google.com/project/_/apis/credentials .
+Once you have your google application credential file copy it to the '/Library/googleSpeech/Account/' folder .
+Then Change the constants.js replacing the values starting with 'YOUR_' below:
 
 	define("GOOGLE_APPLICATION_CREDENTIALS", __dirname  + "/Library/googleSpeech/Account/YOUR_PROJECT_FILE_NAME_COMES_HERE")
 	define("GCLOUD_PROJECT", "YOUR_PROJECTN_NAME_COMES_HERE")
@@ -55,11 +54,9 @@ Change the constants.js repacling the values
 2. Configuring Ivona Text to Speech Module
 --------------------------------------------------------------------------
 
-All users also need a Ivona account.  If you dont have one get it at  https://www.ivona.com 
-Its is a very easy process pick the free plan option and register.
-Once you have your Ivona credentials 
-
-Change the constants.js repacling the values
+All users also need an Ivona account.  If you dont have one get it at  https://www.ivona.com .
+It is a very easy process, just pick the free plan option and register.
+Once you have your Ivona credentials change the constants.js repacling the values starting with 'YOUR_' below:
 
 	define("IVONA_ACCESSKEY", "YOUR_IVONA_ACCESSKEY_COMES_HERE");
 	define("IVONA_SECRETKEY", "YOUR_IVONA_SECRETKEY_COMES_HERE");
@@ -73,16 +70,16 @@ Change the constants.js repacling the values
 4.  Stop Appilication
 --------------------------------------------------------------------------
 
-The application can be stopped any time pressing CTRL+C
-Clearing memory/killing all depedencies after Adrian can be done
+The application can be stopped any time pressing CTRL+C .
+To then clear memory & kill all depedencies the below command can be run:
 
 	./stop
 
 
-5. 	Online Update Adrian
+5. Update Adrian
 --------------------------------------------------------------------------
 
-in the AdrianSmartAssistant folder (it doesnt delete any local config changes)
+in the AdrianSmartAssistant folder execute the below command (it doesn't delete any local config changes):
 
 	git reset --hard origin/master
 
