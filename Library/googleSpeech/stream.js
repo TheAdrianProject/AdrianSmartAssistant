@@ -123,7 +123,7 @@ function updateLine(text) {
     cursor.horizontalAbsolute(0).eraseLine().write(text);
 }
 
-var senteceLog = "/home/pi/adrian/Modules/Listener/Log/lastSentense.json"
+var senteceLog = __dirname+"/../../Modules/Listener/Log/lastSentense.json"
 
 
 

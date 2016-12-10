@@ -38,7 +38,7 @@ class RingBuffer(object):
 def play_audio_file(fname=DETECT_DING):
 
 
-    with open("/home/pi/adrian/queue.json", "a") as myfile:
+    with open("queue.json", "a") as myfile:
         myfile.write('{"actions":{"0":{"Module":"Listener","Action":"start_listener","Params":{}}}}')
         #myfile.write('{"actions":{"0":{"Module":"Speaker","Action":"Speak","Params":{"text":"Yes"}},"1":{"Module":"Listener","Action":"start_listener","Params":{}}}}')
 

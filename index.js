@@ -25,6 +25,10 @@ var constants = require(__dirname + "/constants.js");
 
 console.log(chalk.blue("\n[------------------------------------ APP INIT -------------------------------------]"))
 
+console.log(constants.GOOGLE_APPLICATION_CREDENTIALS)
+console.log(constants.GCLOUD_PROJECT)
+console.log(constants.GOOGLE_APPLICATION_CREDENTIALS.length)
+console.log(constants.GCLOUD_PROJECT.length)
 
 if (typeof constants.GOOGLE_APPLICATION_CREDENTIALS == 'undefined' || 
     typeof constants.GCLOUD_PROJECT == 'undefined' ||  
@@ -58,8 +62,8 @@ if (typeof constants.IVONA_ACCESSKEY == 'undefined'||
  Truncate Log files  
  **************************************************************************************/
 
-execSync('truncate -s 0 /home/pi/adrian/queue.json', {stdio:"ignore"} );
-execSync('truncate -s 0 /home/pi/adrian/Modules/Listener/Log/lastSentense.json', {stdio:"ignore"} );
+execSync('truncate -s 0 queue.json', {stdio:"ignore"} );
+execSync('truncate -s 0 Modules/Listener/Log/lastSentense.json', {stdio:"ignore"} );
 
 
 
@@ -205,7 +209,7 @@ function processActions(){
 function startSnowBoy(){
 
 	console.log(chalk.blue("\n[------------------------------------ START SNOWBOY ------------------------------------]"))
-    var ModulExec = execSync('sudo python /home/pi/adrian/Library/Snowboy/demo.py /home/pi/adrian/Library/Snowboy/Adrian.pmdl >/dev/null &' , {stdio:"ignore"}); //hide it with ignore
+    var ModulExec = execSync('sudo python Library/Snowboy/demo.py Library/Snowboy/Adrian.pmdl >/dev/null &' , {stdio:"ignore"}); //hide it with ignore
     
     sendNeoReady()
 }
