@@ -22,7 +22,7 @@ How to configure
 --------------------------------------------------------------------------
 
 To start playing with Adrian the core modules need to be configured.
-There are two core modules:
+There are three core modules:
 
 	1.  Google Speech to Text Service Module
 	2.  Ivona Text to Speech Module
@@ -70,11 +70,12 @@ Once you have your Ivona credentials change the constants.js repacling the value
 
 3. SnowBoy hotword file configuration 
 --------------------------------------------------------------------------
-The great Showboy offline hotword recognition gives Adrian the ability to 
-recognize and wake up when you say the name Adrian. Every person pronunciation is different
+The great Snowboy offline hotword recognition gives Adrian the ability to 
+recognize and wake up when you say the name Adrian. Every persons pronunciation is different
 but Adrian must recognize all of us. For this Adrian needs a good configuration.
-The configuraion is a file. if Adrian is not able to recognize when you say Adrian
-then you have to record your voice on a showboy webiste. https://snowboy.kitt.ai/dashboard
+The configuration is an audio module file created by snoboy. 
+if Adrian is not able to recognize you when you say Adrian
+then you need to record your voice on the showboy website. https://snowboy.kitt.ai/dashboard
 The whole process takes about 3 minutes but gives almost 100% recognition rate.
 
 Go to the dashboard and search for "Adrian". Set up your personal model with the microphone icon.
