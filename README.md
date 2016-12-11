@@ -26,12 +26,13 @@ There are two core modules:
 
 	1.  Google Speech to Text Service Module
 	2.  Ivona Text to Speech Module
+	3.  SnowBoy hotword file configuration (optional)
 
 There are then three main commands to start, stop and update adrian:
 
-	3.  Start Adrian
-	4.  Stop Adrian
-	5.  Update Adrian
+	4.  Start Adrian
+	5.  Stop Adrian
+	6.  Update Adrian
 
 --------------------------------------------------------------------------
 All module configuration changes can be done in the constants.js file
@@ -67,12 +68,28 @@ Once you have your Ivona credentials change the constants.js repacling the value
 	define("IVONA_SECRETKEY", "YOUR_IVONA_SECRETKEY_COMES_HERE");
 
 
-3.  Start Application
+3. SnowBoy hotword file configuration 
+--------------------------------------------------------------------------
+The great Showboy offline hotword recognition gives Adrian the ability to 
+recognize and wake up when you say the name Adrian. Every person pronunciation is different
+but Adrian must recognize all of us. For this Adrian needs a good configuration.
+The configuraion is a file. if Adrian is not able to recognize when you say Adrian
+then you have to record your voice on a showboy webiste. https://snowboy.kitt.ai/dashboard
+The whole process takes about 3 minutes but gives almost 100% recognition rate.
+
+Go to the dashboard and search for "Adrian". Set up your personal model with the microphone icon.
+Follow the steps and download the output file and replace the file below with the new file.
+Keep the name of the file.
+
+	Library/Showboy/Adrian.pmdl
+
+
+4.  Start Application
 --------------------------------------------------------------------------
 
 	./adrian.sh
 
-4.  Stop Appilication
+5.  Stop Appilication
 --------------------------------------------------------------------------
 
 The application can be stopped any time pressing CTRL+C .
@@ -81,7 +98,7 @@ To then clear memory & kill all depedencies the below command can be run:
 	./stop.sh
 
 
-5. Update Adrian
+6. Update Adrian
 --------------------------------------------------------------------------
 
 in the AdrianSmartAssistant folder execute the below command. Before execution
