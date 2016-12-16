@@ -42,7 +42,9 @@ function Interpret(ModuleParams){
             return false;
         }
     });
-
+    
+    // escape serach text for query
+    var searchTextEscaped = searchText.replace(/'/g , "\'");
 
     // query the database to try and find an action for the searchtext
     var query = "SELECT " +
@@ -124,11 +126,11 @@ function Interpret(ModuleParams){
         "AND box_config.language_id = languages.id " +
 
         "WHERE " +
-        "'" + searchText + "' LIKE CONCAT('%', language_actions.description, '%', language_descriptions.description, '%', language_objects.description, '%', language_locations.description, '%') " +
+        "'" + searchTextEscaped + "' LIKE CONCAT('%', language_actions.description, '%', language_descriptions.description, '%', language_objects.description, '%', language_locations.description, '%') " +
         "OR " +
-        "'" + searchText + "' LIKE CONCAT('%', language_actions.description, '%', language_locations.description, '%', language_descriptions.description, '%', language_objects.description, '%') " +
+        "'" + searchTextEscaped + "' LIKE CONCAT('%', language_actions.description, '%', language_locations.description, '%', language_descriptions.description, '%', language_objects.description, '%') " +
         "OR " +
-        "'" + searchText + "' LIKE CONCAT('%', language_descriptions.description,'%', language_locations.description, '%', language_objects.description, '%', language_actions.description) " +
+        "'" + searchTextEscaped + "' LIKE CONCAT('%', language_descriptions.description,'%', language_locations.description, '%', language_objects.description, '%', language_actions.description) " +
 
         "ORDER BY " +
         "language_objects.description DESC, " +
