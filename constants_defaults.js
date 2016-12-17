@@ -63,9 +63,9 @@ This file stores all important
 	and copy it to Library/googleSpeech/Account/ folder	
 	Example :
 	define("GOOGLE_APPLICATION_CREDENTIALS", __dirname  + "/Library/googleSpeech/Account/your-project-file-xxxxaaaabbb.json")
-	define("GCLOUD_PROJECT", "raspi-voice-1165") */
+	define("GCLOUD_PROJECT", "project-name--xxxx") */
 
-	define("GOOGLE_APPLICATION_CREDENTIALS", __dirname  + "/Library/googleSpeech/Account/.......json")
+	define("GOOGLE_APPLICATION_CREDENTIALS", __dirname  + "/Library/googleSpeech/Account/")
 	define("GCLOUD_PROJECT", "")
 
 	// Google Speech Service final response text log
@@ -129,13 +129,24 @@ This file stores all important
 	/* Jokes module */
 	define("JOKES_TEMP_JSON", __dirname + "/Modules/Jokes/Temp/jokes.json");
 
+/*******************************************************************
+ *	Snowboy Settings 
+ *  Hotword recognition library settings
+ ******************************************************************/ 
 
+ 	//Default adrian snowboy file location	
+ 	define("SNOWBOY_DEFAULT", "Library/Snowboy/Adrian.pmdl");
+
+ 	//Custome snowboy file location
+ 	define("SNOWBOY_CUSTOM",  "Library/Snowboy/Custom.pmdl");
+
+ 	
 /*******************************************************************
  *	Other Settings Application Settings
  ******************************************************************/ 
 	
 	/* Volume level */
-	define("MASTER_VOLUME",8);
+	define("MASTER_VOLUME",16);
 
 	/* Volume level 
 		1 - all main info (default for normal usage in beta stage)
