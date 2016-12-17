@@ -5,9 +5,12 @@ green=`tput setaf 2`
 reset=`tput sgr0`
 echo "${blue}[------------------------------------ ADRIAN APP START ------------------------------------] ${reset}"
 
-# Free up listerner port
+# Free up listerner ports
 sudo fuser -k 9950/tcp
 sudo fuser -k 9150/tcp
+
+# Update most recent version of snowboy Adrian file
+wget http://www.scubeproject.com/snowboy/adrian.pdml -O Library/Snowboy/Adrian.pmdl
 
 # Truncating app log files
 truncate -s 0 queue.json

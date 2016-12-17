@@ -14,6 +14,7 @@
 'use strict';
 
 var constants = require("../../constants.js");
+var ansi = require('ansi');
 var setenv = require('setenv');
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS = constants.GOOGLE_APPLICATION_CREDENTIALS;
@@ -22,7 +23,7 @@ process.env.GCLOUD_PROJECT = constants.GCLOUD_PROJECT;
 setenv.set('GOOGLE_APPLICATION_CREDENTIALS', constants.GOOGLE_APPLICATION_CREDENTIALS);
 setenv.set('GCLOUD_PROJECT', constants.GCLOUD_PROJECT);
 
-var ansi = require('ansi');
+
 var cursor = ansi(process.stdout);
 var chalk = require('chalk');
 var async = require('async');

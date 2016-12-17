@@ -208,8 +208,18 @@ function processActions(){
 
 function startSnowBoy(){
 
-	console.log(chalk.blue("\n[------------------------------------ START SNOWBOY ------------------------------------]"))
-    var ModulExec = execSync('sudo python Library/Snowboy/demo.py Library/Snowboy/Adrian.pmdl >/dev/null &' , {stdio:"ignore"}); //hide it with ignore
+    if (fs.existsSync(constants.SNOWBOY_CUSTOM)) {
+            
+        console.log(chalk.blue("\n[------------------------------------ START SNOWBOY - DEFAULT ADRIAN -----------------------------------]"))
+        var ModulExec = execSync('sudo python Library/Snowboy/demo.py '+constants.SNOWBOY_CUSTOM+' >/dev/null &' , {stdio:"ignore"}); 
+            
+    }else{
+
+        console.log(chalk.blue("\n[------------------------------------ START SNOWBOY - CUSTOM -----------------------------------]"))
+        var ModulExec = execSync('sudo python Library/Snowboy/demo.py '+constants.SNOWBOY_DEFAULT+' >/dev/null &' , {stdio:"ignore"}); 
+
+    }    
+	
     
     sendNeoReady()
 }
