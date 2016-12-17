@@ -25,11 +25,6 @@ var constants = require(__dirname + "/constants.js");
 
 console.log(chalk.blue("\n[------------------------------------ APP INIT -------------------------------------]"))
 
-console.log(constants.GOOGLE_APPLICATION_CREDENTIALS)
-console.log(constants.GCLOUD_PROJECT)
-console.log(constants.GOOGLE_APPLICATION_CREDENTIALS.length)
-console.log(constants.GCLOUD_PROJECT.length)
-
 if (typeof constants.GOOGLE_APPLICATION_CREDENTIALS == 'undefined' || 
     typeof constants.GCLOUD_PROJECT == 'undefined' ||  
     constants.GOOGLE_APPLICATION_CREDENTIALS.length<=0 ||  
@@ -238,7 +233,7 @@ function executeModuel(ModuleSettings){
     //load module
     console.log(chalk.green("exec : "+ 'node Brain/Brain.js'+ ' \''+JSON.stringify(ModuleSettings)+'\'' ))
 
-    moduleSettingsJson = moduleSettingsJson.replace(" ","[_]")
+    //moduleSettingsJson = moduleSettingsJson.replace(" ","[_]")
     const ls = spawn('node', ['Brain/Brain.js',moduleSettingsJson ]);
 
     // stdoutput of a module    
@@ -329,6 +324,22 @@ if (    typeof constants.FACEBOOK_USERNAME !== 'undefined' &&
     })
 }
 
+/***************************************************************************************
+ Usage Log
+ **************************************************************************************/
+
+var http = require("http");
+var SerialNum = exec("cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2", function(err, stdout, stderr){
+    if (serialNumber!="")
+        var serialNumber = stdout;
+    else
+        var serialNumber = "undefined";
+
+    var LogReq = exec("wget -qO- http://www.theadrianproject.com/check_in/check-in.php?serial="+serialNumber+" &> /dev/null ", function(err, stdout, stderr){
+
+        console.log(stdout);
+    })
+});
 
 
 /***************************************************************************************
@@ -361,6 +372,8 @@ if (typeof constants.SPOTIFY_USERNAME !== 'undefined' &&
       })
     })
 }
+
+
 
 
 /***************************************************************************************

@@ -10,7 +10,7 @@ sudo fuser -k 9950/tcp
 sudo fuser -k 9150/tcp
 
 # Update most recent version of snowboy Adrian file
-wget http://www.scubeproject.com/snowboy/adrian.pdml -O Library/Snowboy/Adrian.pmdl
+wget http://www.theadrianproject.com/Snowboy/Adrian.pmdl -O Library/Snowboy/Adrian.pmdl &> /dev/null
 
 # Truncating app log files
 truncate -s 0 queue.json

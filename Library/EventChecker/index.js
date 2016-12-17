@@ -59,6 +59,8 @@ function checkEvents(){
                             //simple timer    
 
                             execSync('play '+__dirname+'/../../Assets/alert.mp3', {stdio:"ignore"} ); 
+                            execSync('play '+__dirname+'/../../Assets/alert.mp3', {stdio:"ignore"} ); 
+                            execSync('play '+__dirname+'/../../Assets/alert.mp3', {stdio:"ignore"} ); 
 
                         }else{
                         
