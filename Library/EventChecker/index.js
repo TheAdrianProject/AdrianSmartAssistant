@@ -17,9 +17,9 @@ function dbConn(){
     // Input the connection parameters
     connection = mysql.createConnection({
         host     : 'localhost',
-        user     : 'root',
-        password : 'root',
-        database : 'adrian_new'
+        user     : constants.DB_USER,
+        password : constants.DB_PASS,
+        database : constants.DB_NAME
     });
 
     // Connect to the database
