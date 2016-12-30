@@ -34,7 +34,7 @@ var googleProtoFiles = require('google-proto-files');
 var googleAuth = require('google-auto-auth');
 var Transform = require('stream').Transform;
 var	spawn = require('child_process').spawn;
-const execSync = require('child_process').execSync;
+var exec = require('child_process').exec;
 
 var ansi = require('ansi');
 var fs = require('fs');
@@ -69,12 +69,17 @@ function handleRequest(request, response){
     if (method=="startListening"){
 
         //var reqestCommand = "GOOGLE SPEACH DEAMON : Start Recognition";
-        sendNeoActive()
-        response.end('{"service":"started"}');
-        //console.log('start');
-        startMic();
-        main('speech.googleapis.com');
+        // send a request to the light to show it is listening
+        sendNeoActive();
+        // say yes and then start the recognition within a callback after Adrian has finished
+        // saying yes so it does not hear itself
+        var ModulExec = exec('play '+__dirname+'/../../Assets/yes.wav',
+            function(err, stdout, stderr) {
 
+                response.end('{"service":"started"}');
+                startMic();
+                main('speech.googleapis.com');
+            });
     }
 
     if ( method=="stopListening"){
@@ -184,23 +189,20 @@ function main ( host) {
 
     function sendRequest (speechService, cb) {
 
-      //say yes
-      var ModulExec = execSync('play '+__dirname+'/../../Assets/yes.wav', {stdio:"ignore"} ); //hide it with ignore
-      
-      console.log(chalk.green('GOOGLE SPEACH DEAMON : Analyzing speech...'));
-      //console.log(Date.now());
-      var responses = [];
-      var call = speechService.streamingRecognize();
+        console.log(chalk.green('GOOGLE SPEACH DEAMON : Analyzing speech...'));
+        //console.log(Date.now());
+        var responses = [];
+        var call = speechService.streamingRecognize();
 
-      // Listen for various responses
-      call.on('error', cb);
-      call.on('data', function (recognizeResponse) {
+        // Listen for various responses
+        call.on('error', cb);
+        call.on('data', function (recognizeResponse) {
 
-        if (recognizeResponse) {
-        	//console.log(JSON.stringify(recognizeResponse))
-          responses.push(recognizeResponse);
-          if (recognizeResponse.results && recognizeResponse.results.length) {
-             //console.log(JSON.stringify(recognizeResponse.results, null, 2));
+            if (recognizeResponse) {
+                //console.log(JSON.stringify(recognizeResponse))
+                responses.push(recognizeResponse);
+                if (recognizeResponse.results && recognizeResponse.results.length) {
+                    //console.log(JSON.stringify(recognizeResponse.results, null, 2));
 
                     var thissentenceJson  = JSON.stringify(recognizeResponse.results, null, 2);
 
@@ -208,49 +210,48 @@ function main ( host) {
                     //if sentense has been finished and the sentense has reasonable length
 
 
-                            console.log("sentence : "+sentence);
-
-                      
-                             //leave message for the listerner module to pass to interpreter
-                             fs.appendFile(senteceLog, sentence, function (err) {
-                             //console.log(sentence+' was left in the lastSentense log')
-
-                             });
-                      
+                    console.log("sentence : "+sentence);
 
 
-            stopMic();
-          }
-        }
-      });
-      call.on('end', function () {
-      	//console.log("end");
-        //cb(null, responses);
-      });
+                    //leave message for the listerner module to pass to interpreter
+                    fs.appendFile(senteceLog, sentence, function (err) {
+                        //console.log(sentence+' was left in the lastSentense log')
 
-      // Write the initial recognize reqeust
-      call.write({
-        streamingConfig: {
-          config: {
-            encoding: 'LINEAR16',
-            sampleRate: 16000
-          
-          },
-          interimResults: false,
-          singleUtterance: true
-        }
-      });
+                    });
 
-      var toRecognizeRequest = new Transform({ objectMode: true });
-      toRecognizeRequest._transform = function (chunk, encoding, done) {
-        done(null, {
-          audioContent: chunk
+
+
+                    stopMic();
+                }
+            }
         });
-      };
-       //console.log(Date.now());
-       mic.stdout.pipe(toRecognizeRequest)
-        		 .pipe(call);
+        call.on('end', function () {
+            //console.log("end");
+            //cb(null, responses);
+        });
 
+        // Write the initial recognize reqeust
+        call.write({
+            streamingConfig: {
+                config: {
+                    encoding: 'LINEAR16',
+                    sampleRate: 16000
+
+                },
+                interimResults: false,
+                singleUtterance: true
+            }
+        });
+
+        var toRecognizeRequest = new Transform({ objectMode: true });
+        toRecognizeRequest._transform = function (chunk, encoding, done) {
+            done(null, {
+                audioContent: chunk
+            });
+        };
+        //console.log(Date.now());
+        mic.stdout.pipe(toRecognizeRequest)
+            .pipe(call);
     }
     // [END send_request]
   ]);
