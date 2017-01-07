@@ -31,6 +31,7 @@ function Search(ModuleParams){
 	        +'?hl='+constants.GOOGLE_LANG       //  Search language
 	        +'&oe=utf8'                         //  Output encoding
 	        +'&q='+searchText                   //  Query string
+			+'&num=1'							//  Return only 1 result to save time
 	        +'" -o '+constants.GOOGLE_TEMP      //  Save output to file
 			,{stdio:"ignore"} );                //  Ignore response  
 

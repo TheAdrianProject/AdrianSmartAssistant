@@ -126,11 +126,11 @@ function Interpret(ModuleParams){
         "AND box_config.language_id = languages.id " +
 
         "WHERE " +
-        "'" + searchTextEscaped + "' LIKE CONCAT('%', language_actions.description, '%', language_descriptions.description, '%', language_objects.description, '%', language_locations.description, '%') " +
+        "? LIKE CONCAT('%', language_actions.description, '%', language_descriptions.description, '%', language_objects.description, '%', language_locations.description, '%') " +
         "OR " +
-        "'" + searchTextEscaped + "' LIKE CONCAT('%', language_actions.description, '%', language_locations.description, '%', language_descriptions.description, '%', language_objects.description, '%') " +
+        "? LIKE CONCAT('%', language_actions.description, '%', language_locations.description, '%', language_descriptions.description, '%', language_objects.description, '%') " +
         "OR " +
-        "'" + searchTextEscaped + "' LIKE CONCAT('%', language_descriptions.description,'%', language_locations.description, '%', language_objects.description, '%', language_actions.description) " +
+        "? LIKE CONCAT('%', language_descriptions.description,'%', language_locations.description, '%', language_objects.description, '%', language_actions.description) " +
 
         "ORDER BY " +
         "language_objects.description DESC, " +
@@ -162,8 +162,9 @@ function Interpret(ModuleParams){
         "LEFT JOIN locations as wildcard_location " +
         "ON wildcard_location.name = 'WILDCARD'";
 
+    var arrBindingValues = [searchTextEscaped, searchTextEscaped, searchTextEscaped];
 
-    connection.query(query, function(err, rows, fields) {
+    connection.query(query, arrBindingValues, function(err, rows, fields) {
 
         if (!err){
 

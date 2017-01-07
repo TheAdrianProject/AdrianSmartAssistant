@@ -6,5 +6,4 @@ Modules/Jokes/Temp/*.json
 Modules/New/Temp/*.xml
 Modules/Spotify/Temp/*.json
 Modules/Listener/Log/*.json
-*.json
 constants.js
