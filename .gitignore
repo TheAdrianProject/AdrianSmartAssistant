@@ -6,4 +6,5 @@ Modules/Jokes/Temp/*.json
 Modules/New/Temp/*.xml
 Modules/Spotify/Temp/*.json
 Modules/Listener/Log/*.json
+Library/googleSpeech/Account/*.json
 constants.js

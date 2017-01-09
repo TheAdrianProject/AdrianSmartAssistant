@@ -63,13 +63,11 @@ function checkEvents(){
                             execSync('play '+__dirname+'/../../Assets/alert.mp3', {stdio:"ignore"} ); 
 
                         }else{
-                        
-                            //reminder
 
-                            var notificationText =  "You have got a reminder : " + rows[i]["text"];
- 
-                            
-                            baseModel.LeaveQueueMsg("Speaker", "Speak", {'text':notificationText})
+                            baseModel.LeaveQueueMsg("Speaker", "Speak", {'text' : rows[i]["text"]});
+                            execSync('play '+__dirname+'/../../Assets/alert.mp3', {stdio:"ignore"} );
+                            execSync('play '+__dirname+'/../../Assets/alert.mp3', {stdio:"ignore"} );
+                            execSync('play '+__dirname+'/../../Assets/alert.mp3', {stdio:"ignore"} );
                         }
                         
                         //update record to inactive    
