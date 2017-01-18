@@ -209,6 +209,7 @@ function Interpret(ModuleParams){
                 'ip_address'           : result['ip_address'],
                 'remote_button_name'   : result['remote_button_name'],
                 'method_id'            : result['method_id'],
+                'action'               : result['action'],
                 'action_id'            : result['action_id']
             };
 
