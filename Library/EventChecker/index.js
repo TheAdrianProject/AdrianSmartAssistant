@@ -64,10 +64,8 @@ function checkEvents(){
 
                         }else{
 
-                            baseModel.LeaveQueueMsg("Speaker", "Speak", {'text' : rows[i]["text"]});
-                            execSync('play '+__dirname+'/../../Assets/alert.mp3', {stdio:"ignore"} );
-                            execSync('play '+__dirname+'/../../Assets/alert.mp3', {stdio:"ignore"} );
-                            execSync('play '+__dirname+'/../../Assets/alert.mp3', {stdio:"ignore"} );
+                            baseModel.LeaveQueueMsg("Speaker", "Speak",
+                                {'text' : 'Reminder, ' + rows[i]["text"]});
                         }
                         
                         //update record to inactive    

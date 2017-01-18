@@ -34,10 +34,10 @@ function Switch(ModuleParams){
     // adrian boxes local location id.. otherwise use the location id from the interpreter
     if(ModuleParams['params']['location_id'] === ModuleParams['params']['wildcard_location_id']){
 
-        var locationId = ModuleParams['params']['location_id'];
+        var locationId = ModuleParams['params']['local_location_id'];
     }else{
 
-        var locationId = ModuleParams['params']['local_location_id'];
+        var locationId = ModuleParams['params']['local_location'];
     }
 
     // get the mysql library object
@@ -67,12 +67,12 @@ function Switch(ModuleParams){
     // get the id of the light we need to switch and
     // the bridge ip and username
     var query = "SELECT " +
-        "light_data.light_id, " +
+        "light_data.json_light_ids, " +
         "bridge_ip_data.`value` as 'bridge_ip', " +
         "bridge_username_data.`value` as 'bridge_username' " +
 
         "FROM (SELECT " +
-        "light_id_data.`value` as light_id " +
+        "light_id_data.`value` as json_light_ids " +
         "FROM " +
         "config as light_id_data " +
 
@@ -123,8 +123,8 @@ function Switch(ModuleParams){
             connection.end();
 
             // check that the needed values were selected
-            if(typeof lightDetails['light_id'] === 'undefined' ||
-                lightDetails['light_id'] === null) {
+            if(typeof lightDetails['json_light_ids'] === 'undefined' ||
+                lightDetails['json_light_ids'] === null) {
 
                 console.log("no light id could be retrieved from the db");
                 baseModel.LeaveQueueMsg("Speaker", "Speak",
@@ -154,44 +154,53 @@ function Switch(ModuleParams){
                 return false;
             }
 
+            // convert the json string into array of light id's
+            var arrLightIds = JSON.parse(lightDetails['json_light_ids'])
+
+            // convert the boolean to a string for use the confirmation sentence
+            if(lightOn){
+
+                var OnOrOff = "on";
+            }else{
+
+                var OnOrOff = "off";
+            }
+
             // send the put request to the bridge to tell the light to turn on
-            //Load the request module
-            request({
-                url: 'http://' + lightDetails['bridge_ip'] + '/api/' + lightDetails['bridge_username'] + '/lights/' + lightDetails['light_id'] + '/state',
-                method: 'PUT',
-                json: {
-                    on: lightOn
-                }
-            }, function(error, response, body){
+            // for each of the lights found for the location
+            for(var x in arrLightIds){
 
-                if(error) {
+                request({
+                    url: 'http://' + lightDetails['bridge_ip'] + '/api/' + lightDetails['bridge_username'] + '/lights/' + arrLightIds[x] + '/state',
+                    method: 'PUT',
+                    json: {
+                        on: lightOn
+                    }
+                }, function(error, response, body){
 
-                    baseModel.LeaveQueueMsg("Speaker", "Speak",
-                        {"text" : "There was an issue sending the request to your hue light."});
-                    return false;
-                } else {
+                    console.log(response.body);
 
-                    if(typeof response.body[0]['success'] === 'undefined') {
+                    if(error) {
 
                         baseModel.LeaveQueueMsg("Speaker", "Speak",
-                            {'text' : "There was an error returned from your hue bridge."});
-
+                            {"text" : "There was an issue sending the request to your hue light."});
                         return false;
+                    } else {
+
+                        if(typeof response.body[0]['success'] === 'undefined') {
+
+                            baseModel.LeaveQueueMsg("Speaker", "Speak",
+                                {'text' : "There was an error returned from your hue bridge."});
+
+                            return false;
+                        }
                     }
+                });
+            }
 
-                    if(lightOn){
-
-                        var OnOrOff = "on";
-                    }else{
-
-                        var OnOrOff = "off";
-                    }
-
-                    baseModel.LeaveQueueMsg("Speaker", "Speak",
-                        {"text" : "The light has been turned " + OnOrOff});
-                    return true;
-                }
-            });
+            baseModel.LeaveQueueMsg("Speaker", "Speak",
+                {"text" : (Object.keys(arrLightIds).length > 1) ? "The lights have been turned " + OnOrOff : "The light has been turned " + OnOrOff});
+            return true;
 
         } else {
 

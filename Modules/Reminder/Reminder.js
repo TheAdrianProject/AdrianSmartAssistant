@@ -14,10 +14,8 @@ var baseModel = require(constants.BASE_MODULE);
 //timer
 function Timer(ModuleParams){
 
-    var strCommand = ModuleParams["text"];
-    var strCommand = strCommand.toLowerCase();
-
-    var strActionWord = "timer";
+    var strCommand    = ModuleParams["text"].toLowerCase();
+    var strActionWord = ModuleParams["params"]["action"].toLowerCase();
 
     // make all time measurements singular for the sql
     strCommand = strCommand.replace(/minutes/g,'minute');
