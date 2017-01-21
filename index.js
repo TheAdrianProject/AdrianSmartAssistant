@@ -10,7 +10,9 @@ var sleepTime = require('sleep-time');
 const execSync = require('child_process').execSync;
 var http = require("http");
 const spawn = require('child_process').spawn;
-var Event = require('./Library/EventChecker')
+var Event = require('./Library/EventChecker');
+const record = require('node-record-lpcm16');
+const snowboy = require('snowboy');
 
 /***************************************************************************************
  Load App config file
@@ -201,20 +203,49 @@ function processActions(){
  Start Snowboy keyword spotting 
  **************************************************************************************/
 
-function startSnowBoy(){
+function startSnowBoy()
+{
+    const models = new snowboy.Models();
 
-    if (fs.existsSync(constants.SNOWBOY_CUSTOM)) {
-            
-        console.log(chalk.blue("\n[------------------------------------ START SNOWBOY - DEFAULT ADRIAN -----------------------------------]"))
-        var ModulExec = execSync('sudo python Library/Snowboy/demo.py '+constants.SNOWBOY_CUSTOM+' >/dev/null &' , {stdio:"ignore"}); 
-            
-    }else{
+    models.add({
+        file: '/home/pi/ForkedAdrian/AdrianSmartAssistant/Library/Snowboy/Adrian.pmdl',
+        sensitivity: '0.6',
+        hotwords : 'adrian'
+    });
 
-        console.log(chalk.blue("\n[------------------------------------ START SNOWBOY - CUSTOM -----------------------------------]"))
-        var ModulExec = execSync('sudo python Library/Snowboy/demo.py '+constants.SNOWBOY_DEFAULT+' >/dev/null &' , {stdio:"ignore"}); 
+    const detector = new snowboy.Detector({
+        resource: "/home/pi/ForkedAdrian/AdrianSmartAssistant/node_modules/snowboy/resources/common.res",
+        models: models,
+        audioGain: 2.0
+    });
 
-    }    
-	
+    detector.on('silence', function () {
+
+        //  console.log('silence');
+    });
+
+    detector.on('sound', function () {
+
+        //  console.log('sound');
+    });
+
+    detector.on('error', function () {
+
+        console.log('SNOWBOY : ERROR!');
+    });
+
+    detector.on('hotword', function (index, hotword) {
+
+        record.stop();
+        baseModel.LeaveQueueMsg("Listener", "start_listener", {});
+    });
+
+    const mic = record.start({
+        threshold: 0,
+        verbose: false
+    });
+
+    mic.pipe(detector);
     
     sendNeoReady()
 }
