@@ -19,9 +19,7 @@ console.log("Listener started")
 var tstream = ts.createReadStream(constants.GOOGLESPEECH_LIVE_RESPONSE_LOG, {
     beginAt: 0,
     onMove: 'follow',
-    detectTruncate: false,
-    //onTruncate: 'end',
-    //endOnError: false
+    detectTruncate: false
 });
 
 /*
@@ -33,15 +31,41 @@ function startQueueTail(){
     console.log("tailing start")
 
     tstream.on('data', function(data) {
-        data = ""+data
-        console.log("got data: " + data);
-        baseModel.LeaveQueueMsg("Interpreter","interpret", {"text":data,"mode":"natural"});
-        //console.log('message was left in the queue')
-        fs.truncate(constants.GOOGLESPEECH_LIVE_RESPONSE_LOG, 0, function(){
-                //console.log(' lastSentense file truncated')
-                process.exit() 
-        })
+
+        var textChunk = data.toString('utf8');
+
+        if(textChunk === "{{NO_SOUND_RECOGNISED}}"){
+
+            console.log("NO SOUND RECOGNISED");
+            fs.truncate(constants.GOOGLESPEECH_LIVE_RESPONSE_LOG, 0, function(err) {
+
+                if (err) {
+                    console.log(err);
+                }
+
+                StopListenerDeamon()
+            });
+        } else {
+
+            console.log("got data: ");
+            console.log(textChunk);
+            baseModel.LeaveQueueMsg("Interpreter","interpret", {"text":textChunk, "mode":"natural"});
+            //console.log('message was left in the queue')
+            fs.truncate(constants.GOOGLESPEECH_LIVE_RESPONSE_LOG, 0, function(err){
+
+                if (err) {
+                    console.log(err);
+                }
+                console.log(' lastSentense file truncated');
+                StopListenerDeamon()
+            })
+        }
          
+    });
+
+    tstream.on('end', function() {
+
+        StopListenerDeamon();
     })
 
 }
@@ -54,12 +78,14 @@ function StartListenerDeamon(){
     path: '/?startListening',
     agent: false  // create a new agent just for this one request
   }, (res) => {
-    
+
   });
 
 }
 
 function StopListenerDeamon(){
+
+    console.log('stopping listener deamon');
 
   http.get({
     hostname: 'localhost',
@@ -67,7 +93,9 @@ function StopListenerDeamon(){
     path: '/?stopListening',
     agent: false  // create a new agent just for this one request
   }, (res) => {
-        process.exit() 
+
+      console.log('stoped listener deamon');
+      process.exit();
   });
 
 }
@@ -80,13 +108,13 @@ function Start_listener(ModuleParams){
     StartListenerDeamon()
 
     // it allows users 6s to finish the question
-    setTimeout(function(){
-
-
-        console.log(chalk.red("\n[ LISTENER : Time limit reached. Stopping GoogleSpeech.]"))
-        StopListenerDeamon()
-       
-    },6000)
+    //setTimeout(function(){
+    //
+    //
+    //    console.log(chalk.red("\n[ LISTENER : Time limit reached. Stopping GoogleSpeech.]"))
+    //    StopListenerDeamon()
+    //
+    //},6000)
     
 
 

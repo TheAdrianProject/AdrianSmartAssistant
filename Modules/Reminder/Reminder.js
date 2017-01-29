@@ -118,9 +118,9 @@ function Timer(ModuleParams){
             console.log("bad query");
             baseModel.LeaveQueueMsg("Speaker", "Speak",
                 {'text':"Apologies, there was an error saving your new reminder"});
-            process.exit();
         }
 
+        process.exit();
     })
 } 
 

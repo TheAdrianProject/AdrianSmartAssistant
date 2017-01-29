@@ -157,17 +157,24 @@ function feedActionQueue(val){
 
 function processActions(){
 
-    if (BrainStatus==1) return false;
-    console.log("Check for available actions");
-   
+    if (BrainStatus == 1) {
 
-    if (actions.length==0) {
+        return false;
+    }
+
+    console.log("Check for available actions");
+
+    if (actions.length === 0) {
 
         console.log("No more action waiting");
-        if (messageMode=="natural") startSnowBoy()
+        if (messageMode === "natural") {
+
+            startSnowBoy();
+        }
         
-        console.log("BRAINSTATUS : "+BrainStatus)
-        if (BrainStatus==0){
+        console.log("BRAINSTATUS : " + BrainStatus);
+        if (BrainStatus === 0) {
+
             console.log(chalk.green("\n[ ADRIAN STAND BY ]"))
         }
         return  true;

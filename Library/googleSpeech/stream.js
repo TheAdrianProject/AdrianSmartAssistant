@@ -86,9 +86,6 @@ function handleRequest(request, response){
 
         //var reqestCommand = "GOOGLE SPEACH DEAMON : Stop Recognition";
         response.end('{"service":"stopped"}');
-        stopMic();
-
-
     }
     //console.log(chalk.blue("GOOGLE SPEACH DEAMON request: "+ method)); 
     //console.log(chalk.blue(reqestCommand));
@@ -190,44 +187,94 @@ function main ( host) {
     function sendRequest (speechService, cb) {
 
         console.log(chalk.green('GOOGLE SPEACH DEAMON : Analyzing speech...'));
-        //console.log(Date.now());
-        var responses = [];
-        var call = speechService.streamingRecognize();
+
+        var startOfSpeech   = false;
+        var responses       = [];
+        var responseTimeout = null;
+        var call            = speechService.streamingRecognize();
 
         // Listen for various responses
         call.on('error', cb);
         call.on('data', function (recognizeResponse) {
 
             if (recognizeResponse) {
-                //console.log(JSON.stringify(recognizeResponse))
+
+                console.log("START OF SPEECH");
+                console.log(startOfSpeech);
+                console.log("RESPONSE");
+                console.log(recognizeResponse);
+
+                // if speech is recognised then set the startOfSpeech boolean to true so we
+                // know we shpuld wait for a result if the "END_OF_UTTERANCE" is received
+                if(recognizeResponse.endpointerType &&
+                    recognizeResponse.endpointerType === "START_OF_SPEECH") {
+
+                    console.log("SPEECH STARTED");
+                    startOfSpeech = true;
+                }
+
+                if(recognizeResponse.endpointerType &&
+                    recognizeResponse.endpointerType === "END_OF_UTTERANCE") {
+
+                    if(startOfSpeech === false) {
+
+                        // if the "END_OF_UTTERANCE" object is received from the stream and no
+                        // "START_OF_SPEECH" object was returned it means no speech was recognised.. send a
+                        // message to the sentence log to tell the Listener module and then stop the mic to
+                        // release it for use in other services
+                        fs.appendFile(senteceLog, "{{NO_SOUND_RECOGNISED}}");
+                        stopMic();
+                    }else{
+
+                        // if the "END_OF_UTTERANCE" object is received from the stream and the
+                        // "START_OF_SPEECH" object was returned then wait 2 seconds to check if a
+                        // sentence will be returned.. if one is not returned then send a message to the
+                        // sentence log to tell the Listener module and then stop the mic to release it for
+                        // use in other services.. also set the responseTimeout boolean to true so if a
+                        // sentence is returned after 2 seconds no more messages are sent to the Listener
+                        // module through the sentence log for this request
+                        responseTimeout = setTimeout(function()
+                        {
+                            fs.appendFile(senteceLog, "{{NO_SOUND_RECOGNISED}}");
+                            stopMic();
+                            responseTimeout = null;
+                        }, 2000)
+                    }
+                }
+
                 responses.push(recognizeResponse);
+
+                // if a result was received that contains a sentence
                 if (recognizeResponse.results && recognizeResponse.results.length) {
-                    //console.log(JSON.stringify(recognizeResponse.results, null, 2));
 
-                    var thissentenceJson  = JSON.stringify(recognizeResponse.results, null, 2);
+                    // if the responseTimeout has not been set or has not timedout yet
+                    if(typeof responseTimeout === "undefined" || responseTimeout !== null){
 
-                    var sentence = recognizeResponse.results[0].alternatives[0]["transcript"];
-                    //if sentense has been finished and the sentense has reasonable length
+                        clearTimeout(responseTimeout);
 
+                        var thissentenceJson  = JSON.stringify(recognizeResponse.results, null, 2);
+                        var sentence          = recognizeResponse.results[0].alternatives[0]["transcript"];
 
-                    console.log("sentence : "+sentence);
+                        console.log("sentence : "+sentence);
 
+                        //leave message for the listener module in the sentence log so it can
+                        // pass it to the interpreter
+                        fs.appendFile(senteceLog, sentence, function (err) {
 
-                    //leave message for the listerner module to pass to interpreter
-                    fs.appendFile(senteceLog, sentence, function (err) {
-                        //console.log(sentence+' was left in the lastSentense log')
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
 
-                    });
-
-
-
-                    stopMic();
+                        // stop the mic to release it for use in other services
+                        stopMic();
+                    }
                 }
             }
         });
+
         call.on('end', function () {
-            //console.log("end");
-            //cb(null, responses);
+
         });
 
         // Write the initial recognize reqeust
