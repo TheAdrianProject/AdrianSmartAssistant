@@ -11,8 +11,7 @@ const execSync = require('child_process').execSync;
 var http = require("http");
 const spawn = require('child_process').spawn;
 var Event = require('./Library/EventChecker');
-const record = require('node-record-lpcm16');
-const snowboy = require('snowboy');
+const KeywordRecognition = require('./Library/Snowboy/Snowboy');
 
 /***************************************************************************************
  Load App config file
@@ -169,7 +168,7 @@ function processActions(){
         console.log("No more action waiting");
         if (messageMode === "natural") {
 
-            startSnowBoy();
+            StartKeywordRecognition();
         }
         
         console.log("BRAINSTATUS : " + BrainStatus);
@@ -210,51 +209,11 @@ function processActions(){
  Start Snowboy keyword spotting 
  **************************************************************************************/
 
-function startSnowBoy()
+function StartKeywordRecognition()
 {
-    const models = new snowboy.Models();
-
-    models.add({
-        file: '/home/pi/ForkedAdrian/AdrianSmartAssistant/Library/Snowboy/Adrian.pmdl',
-        sensitivity: '0.6',
-        hotwords : 'adrian'
-    });
-
-    const detector = new snowboy.Detector({
-        resource: "/home/pi/ForkedAdrian/AdrianSmartAssistant/node_modules/snowboy/resources/common.res",
-        models: models,
-        audioGain: 2.0
-    });
-
-    detector.on('silence', function () {
-
-        //  console.log('silence');
-    });
-
-    detector.on('sound', function () {
-
-        //  console.log('sound');
-    });
-
-    detector.on('error', function () {
-
-        console.log('SNOWBOY : ERROR!');
-    });
-
-    detector.on('hotword', function (index, hotword) {
-
-        record.stop();
-        baseModel.LeaveQueueMsg("Listener", "start_listener", {});
-    });
-
-    const mic = record.start({
-        threshold: 0,
-        verbose: false
-    });
-
-    mic.pipe(detector);
+    KeywordRecognition.StartKeywordRecognition();
     
-    sendNeoReady()
+    sendNeoReady();
 }
 
 /***************************************************************************************
@@ -425,7 +384,7 @@ startQueueTail();
 sendNeoReady();
 
 // start snowBoy keyword spotting
-startSnowBoy();
+StartKeywordRecognition();
 
 // Start event checking
 Event.getEventCheck() 
