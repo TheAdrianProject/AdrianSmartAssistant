@@ -10,7 +10,8 @@ var sleepTime = require('sleep-time');
 const execSync = require('child_process').execSync;
 var http = require("http");
 const spawn = require('child_process').spawn;
-var Event = require('./Library/EventChecker')
+var Event = require('./Library/EventChecker');
+const KeywordRecognition = require('./Library/Snowboy/Snowboy');
 
 /***************************************************************************************
  Load App config file
@@ -155,17 +156,24 @@ function feedActionQueue(val){
 
 function processActions(){
 
-    if (BrainStatus==1) return false;
-    console.log("Check for available actions");
-   
+    if (BrainStatus == 1) {
 
-    if (actions.length==0) {
+        return false;
+    }
+
+    console.log("Check for available actions");
+
+    if (actions.length === 0) {
 
         console.log("No more action waiting");
-        if (messageMode=="natural") startSnowBoy()
+        if (messageMode === "natural") {
+
+            StartKeywordRecognition();
+        }
         
-        console.log("BRAINSTATUS : "+BrainStatus)
-        if (BrainStatus==0){
+        console.log("BRAINSTATUS : " + BrainStatus);
+        if (BrainStatus === 0) {
+
             console.log(chalk.green("\n[ ADRIAN STAND BY ]"))
         }
         return  true;
@@ -201,22 +209,11 @@ function processActions(){
  Start Snowboy keyword spotting 
  **************************************************************************************/
 
-function startSnowBoy(){
-
-    if (fs.existsSync(constants.SNOWBOY_CUSTOM)) {
-            
-        console.log(chalk.blue("\n[------------------------------------ START SNOWBOY - DEFAULT ADRIAN -----------------------------------]"))
-        var ModulExec = execSync('sudo python Library/Snowboy/demo.py '+constants.SNOWBOY_CUSTOM+' >/dev/null &' , {stdio:"ignore"}); 
-            
-    }else{
-
-        console.log(chalk.blue("\n[------------------------------------ START SNOWBOY - CUSTOM -----------------------------------]"))
-        var ModulExec = execSync('sudo python Library/Snowboy/demo.py '+constants.SNOWBOY_DEFAULT+' >/dev/null &' , {stdio:"ignore"}); 
-
-    }    
-	
+function StartKeywordRecognition()
+{
+    KeywordRecognition.StartKeywordRecognition();
     
-    sendNeoReady()
+    sendNeoReady();
 }
 
 /***************************************************************************************
@@ -387,7 +384,7 @@ startQueueTail();
 sendNeoReady();
 
 // start snowBoy keyword spotting
-startSnowBoy();
+StartKeywordRecognition();
 
 // Start event checking
 Event.getEventCheck() 

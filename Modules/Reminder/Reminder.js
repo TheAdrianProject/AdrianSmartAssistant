@@ -91,8 +91,6 @@ function Timer(ModuleParams){
         }
     });
 
-    console.log("before query")
-
     var query = " " +
         "INSERT " +
         "into adrian_new.events " +
@@ -109,18 +107,22 @@ function Timer(ModuleParams){
 
         if (!err){
 
-            baseModel.LeaveQueueMsg("Speaker", "Speak", {'text':"timer, " + strTimerDescription + ", is set for " + strTime});
             connection.end();
+            baseModel.LeaveQueueMsg("Speaker", "Speak",{'text':"timer, " + strTimerDescription + ", is set for " + strTime}, function() {
+
+                    process.exit();
+                });
 
         }else{
 
             console.log(query);
             console.log("bad query");
             baseModel.LeaveQueueMsg("Speaker", "Speak",
-                {'text':"Apologies, there was an error saving your new reminder"});
-            process.exit();
-        }
+                {'text':"Apologies, there was an error saving your new reminder"}, function() {
 
+                    process.exit();
+                });
+        }
     })
 } 
 
