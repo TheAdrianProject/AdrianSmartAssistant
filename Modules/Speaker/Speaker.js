@@ -42,7 +42,7 @@ function Speak(ModuleParams){
         
         if (fs.existsSync(constants.IVONA_TEMP_DIR+textHash+'.mp3')) {
             
-            var ModulExec = execSync('play '+constants.IVONA_TEMP_DIR+textHash+'.mp3', {stdio:"ignore"} ); //hide it with ignore
+            var ModulExec = execSync('sudo play '+constants.IVONA_TEMP_DIR+textHash+'.mp3', {stdio:"ignore"} ); //hide it with ignore
             
         }else{
             
