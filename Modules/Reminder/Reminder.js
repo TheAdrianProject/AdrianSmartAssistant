@@ -87,7 +87,7 @@ function Timer(ModuleParams){
             console.log("connection OK");
         } else {
 
-            console.log("Error connecting database ...");
+            console.log("Error connecting database (2) ...");
         }
     });
 

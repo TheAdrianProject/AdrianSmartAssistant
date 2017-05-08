@@ -22,7 +22,7 @@ function dbConn(){
             //console.log(connection)
            
         } else {
-            console.log("Error connecting database ...");
+            console.log("Error connecting database (1)...");
         }
     });
 

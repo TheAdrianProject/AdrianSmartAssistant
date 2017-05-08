@@ -31,13 +31,13 @@ class KeywordRecognition {
             const models = new snowboy.Models();
 
             models.add({
-                file: '/home/pi/ForkedAdrian/AdrianSmartAssistant/Library/Snowboy/Adrian.pmdl',
+                file: '/home/pi/AdrianSmartAssistant/Library/Snowboy/Adrian.pmdl',
                 sensitivity: '0.55',
                 hotwords : 'adrian'
             });
 
             const detector = new snowboy.Detector({
-                resource: "/home/pi/ForkedAdrian/AdrianSmartAssistant/node_modules/snowboy/resources/common.res",
+                resource: "/home/pi/AdrianSmartAssistant/node_modules/snowboy/resources/common.res",
                 models: models,
                 audioGain: 2.0
             });

@@ -23,7 +23,7 @@ sudo node index.js &
 sudo node Library/googleSpeech/stream.js  &
 
 # Start Neopixel Deamon
-sudo node Library/NeoPixel/blueAsteroid.js 
+# sudo node Library/NeoPixel/blueAsteroid.js 
 
 
 

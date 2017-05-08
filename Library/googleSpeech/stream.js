@@ -70,7 +70,7 @@ function handleRequest(request, response){
 
         //var reqestCommand = "GOOGLE SPEACH DEAMON : Start Recognition";
         // send a request to the light to show it is listening
-        sendNeoActive();
+        //sendNeoActive();
         // say yes and then start the recognition within a callback after Adrian has finished
         // saying yes so it does not hear itself
         var ModulExec = exec('play '+__dirname+'/../../Assets/yes.wav',

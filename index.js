@@ -1,7 +1,6 @@
 /***************************************************************************************
  Require modules
  **************************************************************************************/
-
 var exec = require('child_process').exec;
 var fs = require('fs');  
 var ts = require('tail-stream');
@@ -10,7 +9,7 @@ var sleepTime = require('sleep-time');
 const execSync = require('child_process').execSync;
 var http = require("http");
 const spawn = require('child_process').spawn;
-var Event = require('./Library/EventChecker');
+//var Event = require('./Library/EventChecker');
 const KeywordRecognition = require('./Library/Snowboy/Snowboy');
 
 /***************************************************************************************
@@ -213,7 +212,7 @@ function StartKeywordRecognition()
 {
     KeywordRecognition.StartKeywordRecognition();
     
-    sendNeoReady();
+    //sendNeoReady();
 }
 
 /***************************************************************************************
@@ -349,25 +348,33 @@ if (typeof constants.SPOTIFY_USERNAME !== 'undefined' &&
     constants.SPOTIFY_USERNAME.length>0 && 
     constants.SPOTIFY_PASSWORD.length>0){
 
-    fs.readFile(constants.MOPIDY_CONFIG_FILE, 'utf8', function (err,data) {
-        if (err) {
-        console.log(chalk.red("\n[ ERROR : can't find Mopidy config file : "+ constants.MOPIDY_CONFIG_FILE +" ]\n"))
-        }
-        var result = data.replace(/username =.*/, 'username = '+constants.SPOTIFY_USERNAME);
-        var result = result.replace(/password =.*/, 'password = '+constants.SPOTIFY_PASSWORD)
+    fs.stat(constants.MOPIDY_CONFIG_FILE, function(err, data) { 
+        if (!err){
+            fs.readFile(constants.MOPIDY_CONFIG_FILE, 'utf8', function (err,data) {
+                if (err) {
+                    console.log(chalk.red("\n[ ERROR : can't find Mopidy config file : "+ constants.MOPIDY_CONFIG_FILE +" ]\n"))
+                }
+                var result = data.replace(/username =.*/, 'username = '+constants.SPOTIFY_USERNAME);
+                var result = result.replace(/password =.*/, 'password = '+constants.SPOTIFY_PASSWORD)
 
-        fs.writeFile(constants.MOPIDY_CONFIG_FILE, result, 'utf8', function (err) {
+                fs.writeFile(constants.MOPIDY_CONFIG_FILE, result, 'utf8', function (err) {
 
-        if (err){
-            return console.log(chalk.red("\n[ ERROR : can't write Mopidy config file : "+ constants.MOPIDY_CONFIG_FILE +" ]"))
-        }else{
+                if (err){
+                    return console.log(chalk.red("\n[ ERROR : can't write Mopidy config file : "+ constants.MOPIDY_CONFIG_FILE +" ]"))
+                }else{
 
-            console.log(chalk.blue("\n[SERVICE : Restarting Mopidy for Spotify]"))
-            var ModulExec = execSync(' sudo service mopidy restart', {stdio:"ignore"} ); 
+                    console.log(chalk.blue("\n[SERVICE : Restarting Mopidy for Spotify]"))
+                    var ModulExec = execSync(' sudo service mopidy restart', {stdio:"ignore"} ); 
 
-        }
-      })
-    })
+                }
+              })
+            })
+
+        } 
+        else 
+            console.log('Mopidy config file does not exist'); 
+    }); 
+
 }
 
 
@@ -381,11 +388,11 @@ if (typeof constants.SPOTIFY_USERNAME !== 'undefined' &&
 startQueueTail();
 
 // set neofixel light ready
-sendNeoReady();
+//sendNeoReady();
 
 // start snowBoy keyword spotting
 StartKeywordRecognition();
 
 // Start event checking
-Event.getEventCheck() 
+//Event.getEventCheck() 
 
