@@ -9,3 +9,4 @@ Modules/Spotify/Temp/*.json
 Modules/Listener/Log/*.json
 Library/googleSpeech/Account/*.json
 constants.js
+queue.json

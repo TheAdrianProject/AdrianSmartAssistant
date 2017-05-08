@@ -48,7 +48,7 @@ module.exports = {
      */
     LeaveQueueMsg: function LeaveQueueMsg(Module, Action, Params){
 
-        console.log("YOU MADE IT HERE!!");
+        //console.log("YOU MADE IT HERE!!");
         console.log(Module);
         console.log(Action);
         console.log(Params);

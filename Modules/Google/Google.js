@@ -166,7 +166,7 @@ function Search(ModuleParams){
 
 
 		GoogleResponse = entities.decode(striptags(found));
-
+		console.log("here");
 		if (GoogleResponse=="") GoogleResponse = "I am sorry, I dont have answer for that."
 
 		//$('._tXc>span',body).length
