@@ -20,7 +20,7 @@ truncate -s 0 Modules/Listener/Log/lastSentense.json
 sudo node index.js &
 
 # Start Google Speech Recognintion Deamon
-sudo node Library/googleSpeech/stream.js  &
+sudo node Library/googleSpeech/stream.js  
 
 # Start Neopixel Deamon
 # sudo node Library/NeoPixel/blueAsteroid.js 

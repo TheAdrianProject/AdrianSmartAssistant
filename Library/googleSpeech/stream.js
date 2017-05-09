@@ -133,6 +133,7 @@ var senteceLog = __dirname+"/../../Modules/Listener/Log/lastSentense.json"
 function startMic(){
 
    
+    //mic = spawn('rec', ['--default-device', '--rate=16000', '--default-device']); //, '--duration=10'
     mic = spawn('arecord', ['--device=plughw:1,0', '--format=S16_LE', '--rate=16000', '--disable-softvol','--channels=1']); //, '--duration=10'
     console.log(chalk.gray("GOOGLE SPEACH DEAMON : Turn microphone on"));
     console.log(Date.now());
@@ -199,17 +200,17 @@ function main ( host) {
 
             if (recognizeResponse) {
 
-                console.log("START OF SPEECH");
-                console.log(startOfSpeech);
-                console.log("RESPONSE");
-                console.log(recognizeResponse);
+                //console.log("START OF SPEECH");
+                //console.log(startOfSpeech);
+                //console.log("RESPONSE");
+                //console.log(recognizeResponse);
 
                 // if speech is recognised then set the startOfSpeech boolean to true so we
                 // know we shpuld wait for a result if the "END_OF_UTTERANCE" is received
                 if(recognizeResponse.endpointerType &&
                     recognizeResponse.endpointerType === "START_OF_SPEECH") {
 
-                    console.log("SPEECH STARTED");
+                    //console.log("SPEECH STARTED");
                     startOfSpeech = true;
                 }
 

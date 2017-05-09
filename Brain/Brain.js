@@ -12,6 +12,9 @@ var baseModel = require(constants.BASE_MODULE);
 var moduleSettings = baseModel.parseParam(process.argv);
 
 console.log("\n********PARAMS************\n");
+var d = new Date();
+var n = d.getTime();
+console.log("Time : "+n/1000)
 console.log("Module : "+capitalize(moduleSettings["Module"]) )
 console.log("Action : "+capitalize(moduleSettings["Action"]) )
 console.log("Params : "+moduleSettings["Params"] )

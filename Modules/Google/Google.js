@@ -26,153 +26,180 @@ function Search(ModuleParams){
 	var searchText = searchText.replace(" ","+")
 	var searchText = searchText.replace(/ /g ,"+")
 
-
-	execSync('curl -sA "Chrome" -L "http://www.google.com/search'
+	console.log('"http://www.google.com/search'
 	        +'?hl='+constants.GOOGLE_LANG       //  Search language
 	        +'&oe=utf8'                         //  Output encoding
 	        +'&q='+searchText                   //  Query string
 			+'&num=1'							//  Return only 1 result to save time
-	        +'" -o '+constants.GOOGLE_TEMP      //  Save output to file
-			,{stdio:"ignore"} );                //  Ignore response  
-
-	/*
-	* Reading the file
-	*/
-	fs. readFile(constants.GOOGLE_TEMP, 'utf8', function(err, body) {
-
-	    // result variable init
-		var found = 0;
-		
-		if (!found && $('._m3b',body).length>0){
-
-			found = $('._m3b',body).html()
-	    				
-		}
-
-		//facts
-		if (!found && $('._tXc>span',body).length>0){
-
-			found = $('._tXc>span',body).html()
-	    				
-		}
-
-		//facts
-		if (!found && $('._sPg',body).length>0){
+	        )
 
 
-			found = " "+$('._sPg',body).html()
-			    				
-		}
-		
-		//instant + description
-		if (!found && $('._Oqb',body).length>0){
+	var request = require('request');
 
+	// Set the headers
+	var headers = {
+	    'User-Agent':       'Chrome'
+	}
 
-			found = $('._Oqb',body).html()
+	// Configure the request
+	var options = {
+	    url: 'http://www.google.com/search',
+	    method: 'GET',
+	    headers: headers,
+	    qs: {
+	            'hl': constants.GOOGLE_LANG, 
+	            'oe': 'utf8',
+	            'q': searchText,
+	            'num':'1',
+	            'ir':'lang_en'
+	        }
+	}
 
-			//how many
-	    	if ( $('._Mqb',body).length>0){
-
-	    		console.log("how many")
-	    		found+= " "+$('._Mqb',body).html()
-	    	}
-		}
-
-		//how many
-		if (!found && $('._m3b',body).length>0){
-
-			found = $('._m3b',body).html()
-
-			//how many
-	    	if ( $('._eGc',body).length>0){
-
-	    		found+= $('._eGc',body).html()
-	    	}
-		}
-
-
-
-
-		//Time, Date
-		if (!found && $('._rkc._Peb',body).length>0){
-
-		 	found = $('._rkc._Peb',body).html()
-			    				
-		}
-
-		//Math 	
-		if (!found && $('.nobr>.r',body).length>0){
-
-
-			found = $('.nobr>.r',body).html()
-			    				
-		}
-
-		//simpe answere
-		if (!found && $('.obcontainer',body).length>0){
-
-			found = $('.obcontainer',body).html()
-			    				
-		}
-	       
-	    //Definition
-		if (!found && $('.r>div>span',body).first().length>0){
-
-			found = $('.r>div>span',body).first().html()
-
-			//how many
-	    	if ( $('.g>div>table>tr>td>ol',body).length>0){
-
-	    		found+= " "+$('.g>div>table>tr>td>ol',body).html()
-	    	}
-		}
-	    
-
-	    //TV show
-	    if (!found && $('._B5d',body).length>0){
+		// Start the request
+		request(options, function (error, response, body) {
+	    if (!error && response.statusCode == 200) {
+	        // Print out the response body
+	        
+		    console.log("downloaded")
+		    // result variable init
+			var found = 0;
 			
-			found = $('._B5d',body).html()
+			if (!found && $('._m3b',body).length>0){
 
-			//how many
-	    	if ( $('._Pxg',body).length>0){
+				found = $('._m3b',body).html()
+		    				
+			}
 
-	    		found+= ". "+$('._Pxg',body).html()
-	    	}
+			//facts
+			if (!found && $('._tXc>span',body).length>0){
 
-			//how many
-	    	if ( $('._tXc',body).length>0){
+				found = $('._tXc>span',body).html()
+		    				
+			}
 
-	    		found+= ". "+$('._tXc',body).html()
-	    	}
-		}
-		
-	    //Weather
-	  	if (!found && $('.g>.e>h3',body).length>0){
+			//facts
+			if (!found && $('._sPg',body).length>0){
+
+
+				found = " "+$('._sPg',body).html()
+				    				
+			}
 			
-			found = $('.g>.e>h3',body).html()
+			//instant + description
+			if (!found && $('._Oqb',body).length>0){
+
+
+				found = $('._Oqb',body).html()
+
+				//how many
+		    	if ( $('._Mqb',body).length>0){
+
+		    		console.log("how many")
+		    		found+= " "+$('._Mqb',body).html()
+		    	}
+			}
 
 			//how many
-	    	if ( $('.wob_t',body).first().length>0){
+			if (!found && $('._m3b',body).length>0){
 
-	    		found+= " "+ $('.wob_t',body).first().html()
-	    	}
+				found = $('._m3b',body).html()
 
-			//how many
-	    	if ( $('._Lbd',body).length>0){
+				//how many
+		    	if ( $('._eGc',body).length>0){
 
-	    		found+= " "+ $('._Lbd',body).html()
-	    	}
-		}      
+		    		found+= $('._eGc',body).html()
+		    	}
+			}
 
 
-		GoogleResponse = entities.decode(striptags(found));
-		console.log("here");
-		if (GoogleResponse=="") GoogleResponse = "I am sorry, I dont have answer for that."
+			//Time, Date
+			if (!found && $('._rkc._Peb',body).length>0){
 
-		//$('._tXc>span',body).length
-		baseModel.LeaveQueueMsg("Speaker", "Speak", {'text':GoogleResponse})
-	  
+			 	found = $('._rkc._Peb',body).html()
+				    				
+			}
+
+			//Math 	
+			if (!found && $('.nobr>.r',body).length>0){
+
+
+				found = $('.nobr>.r',body).html()
+				    				
+			}
+
+			//simpe answere
+			if (!found && $('.obcontainer',body).length>0){
+
+				found = $('.obcontainer',body).html()
+				    				
+			}
+		       
+		    //Definition
+			if (!found && $('.r>div>span',body).first().length>0){
+
+				found = $('.r>div>span',body).first().html()
+
+				//how many
+		    	if ( $('.g>div>table>tr>td>ol',body).length>0){
+
+		    		found+= " "+$('.g>div>table>tr>td>ol',body).html()
+		    	}
+			}
+		    
+
+		    //TV show
+		    if (!found && $('._B5d',body).length>0){
+				
+				found = $('._B5d',body).html()
+
+				//how many
+		    	if ( $('._Pxg',body).length>0){
+
+		    		found+= ". "+$('._Pxg',body).html()
+		    	}
+
+				//how many
+		    	if ( $('._tXc',body).length>0){
+
+		    		found+= ". "+$('._tXc',body).html()
+		    	}
+			}
+			
+		    //Weather
+		  	if (!found && $('.g>.e>h3',body).length>0){
+				
+				found = $('.g>.e>h3',body).html()
+
+				//how many
+		    	if ( $('.wob_t',body).first().length>0){
+
+		    		found+= " "+ $('.wob_t',body).first().html()
+		    	}
+
+				//how many
+		    	if ( $('._Lbd',body).length>0){
+
+		    		found+= " "+ $('._Lbd',body).html()
+		    	}
+			}      
+
+
+			GoogleResponse = entities.decode(striptags(found));
+			console.log(GoogleResponse);
+			if (GoogleResponse=="") GoogleResponse = "I am sorry, I dont have answer for that."
+
+			//$('._tXc>span',body).length
+			baseModel.LeaveQueueMsg("Speaker", "Speak", {'text':GoogleResponse})
+	    }
 	})
+
+
+
+	
+
+		
+	  
+
 
 
 }

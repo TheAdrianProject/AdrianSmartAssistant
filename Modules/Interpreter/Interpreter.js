@@ -35,7 +35,7 @@ function Interpret(ModuleParams){
 
         if(!err) {
 
-            console.log("Database is connected ...");
+            //console.log("Database is connected ...");
         } else {
 
             console.log("Error connecting database ...");
@@ -169,7 +169,7 @@ function Interpret(ModuleParams){
         if (!err){
 
             // if the database query was successful
-            console.log('The response is: ', rows);
+            //console.log('The response is: ', rows);
 
             // get the first row of the result
             var result = rows[0];
@@ -180,7 +180,7 @@ function Interpret(ModuleParams){
             // if the database query did not find a valid action for the command
             if(result == null) {
 
-                console.log("no command found by the interpreter in the db");
+                //console.log("no command found by the interpreter in the db");
 
                 baseModel.LeaveQueueMsg("google", "search",
                     {"text" : searchText});
